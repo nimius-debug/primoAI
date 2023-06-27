@@ -36,6 +36,7 @@ LANGUAGES = {
         'error_ext_img':'No text was found in the Image.',
         'long_text':'The document is too long No more than 2 pages(5000 characters).',
         'doc_options': ["PDF", "Image","Camera"],
+        'cam_warning':'Its recommended to take a picture with your phone and then upload the Image.',
     },
     'es': {
         'language': 'Traduciendo Texto al Español',
@@ -73,5 +74,6 @@ LANGUAGES = {
         'error_ext_img':'No texto fue encontrado en la imagen.',
         'long_text':'El documento es demasiado largo. No más de 2 páginas (5000 caracteres).',
         'doc_options': ["PDF", "Imagen","Cámara"],
+        'cam_warning':'Es recomendado tomar la foto con el telefono y subirla a Imagen despues.',
     }
 }

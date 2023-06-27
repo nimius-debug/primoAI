@@ -1,10 +1,10 @@
 import streamlit as st
 import pytesseract
 from PIL import Image
+Image.MAX_IMAGE_PIXELS = None
 from deep_translator import GoogleTranslator
 import openai
 import os
-import time
 import logging
 from PyPDF2 import PdfReader
 from multi_lang import LANGUAGES
@@ -90,12 +90,12 @@ def loadOpenAI():
     print(AI_key_message)
 
 def AI_text_OpenAI(text, document_type, target_language):
-    AI_personality = "You are a highly skilled language assistant. Your capabilities include translating text, \
+    AI_personality = "You are a highly skilled language assistant who is my cousin born in cuba so I want you to be very cuban in your response and greet me as you cousin using extremely cuban lingo when assisting. Your capabilities include translating text in, \
         highlighting key points, summarizing content, identifying need-to-know facts, and providing actionable \
         recommendations based on the text provided."
 
     document_type_specific_instructions = {
-        "es":"Español",
+        "es":"Cuban Spanish",
         "immigration": "This document relates to immigration matters. Please pay special attention to details related to case status, dates, deadlines, visa requirements, and any supporting documentation.",
         "legal": "This is a legal document. Please emphasize legal terms, conditions, obligations, rights, any penalties or consequences, and the overall legal implications.",
         "doctor": "This document is from a medical professional. Please focus on medical terms, diagnoses, treatment plans, medications, and any medical recommendations or precautions.",
@@ -106,20 +106,20 @@ def AI_text_OpenAI(text, document_type, target_language):
         'médico': "This document is from a medical professional. Please focus on medical terms, diagnoses, treatment plans, medications, and any medical recommendations or precautions.",
         "personal": "This is a personal document. Please respect the privacy and sensitivity of the content. Highlight any significant personal events, dates, important contacts, or other pertinent information."
 }
-    language = document_type_specific_instructions.get(target_language.lower(), "Español")
+    language = document_type_specific_instructions.get(target_language.lower(), "Cuban Spanish")
     specific_instruction = document_type_specific_instructions.get(document_type.lower(), "")
     model_id = 'gpt-3.5-turbo'
     response = openai.ChatCompletion.create(
         model = model_id,
         messages = [
             {"role": "system", "content": AI_personality},
-            {"role": "user", "content": f"I have a {document_type} document in English that I need your assistance with. \
+            {"role": "user", "content": f"I have a {document_type} document that I need your assistance with. \
                 {specific_instruction} Could you please do the following: \n\
                     \n1. Highlight the most important points using easy-to-understand language.\
                     \n2. Summarize the main ideas in a concise and straightforward manner, avoiding complex terms and jargon.\
                     \n3. Provide the essential 'need-to-know' facts using plain and accessible language.\
                     \n4. Based on the document's content, offer actionable comments or suggestions using simple words on what steps should be taken next. \
-                    \n\n Make sure you response is in {language} using simple and clear words.The document text is as follows: {text}"},
+                    \n\n Make sure you response is in {language} using cuban expression and vocabulary and dont forget you are my cousin.The document text is as follows: {text}"},
         ],
         temperature = 0.2,
         max_tokens =  500,
@@ -174,6 +174,7 @@ def main():
                         st.write(response)
                         
     elif radio_option in ("Camera","Cámara"):
+        st.warning(LANGUAGES[lang]['cam_warning'])
         img_file_buffer = st.camera_input("")
         if img_file_buffer is not None:
             try:
